@@ -97,8 +97,8 @@ body.empty.tv .wrap{height:auto}
 .wave .tm{display:flex;justify-content:space-between;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--grid);font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .wave .tm span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 .wave .tm .ic{width:14px;height:14px;flex:none}
-.wave .tm .ini .ic{color:var(--teal)}
-.wave .tm .fim .ic{color:var(--acc)}
+.wave .tm .ini .ic{color:var(--ini, var(--teal))}
+.wave .tm .fim .ic{color:var(--fim, var(--acc))}
 .wave.total{border-top:3px solid var(--navy2)}
 .wave{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;transition:opacity .15s}
 .wave.dim{opacity:.4}
@@ -264,6 +264,38 @@ body.tv .cell .st{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   body.tv .legend{display:none}
   body.tv .notice.live{padding:4px 10px;margin-bottom:6px;font-size:11.5px}
 }
+.brand .blogo{height:28px;max-width:180px;object-fit:contain;display:block}
+.brand .blogo.bg{background:#fff;border-radius:5px;padding:3px 7px;height:32px}
+.brand .bname{font:800 13px Manrope,sans-serif;letter-spacing:2px;text-transform:uppercase}
+.tvlogo img{height:40px;max-width:220px;object-fit:contain;display:block}
+.tvlogo img.bg{background:#fff;border-radius:6px;padding:4px 8px}
+.apveil{position:fixed;inset:0;background:var(--veil);z-index:44;display:none}
+.apveil.on{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,94vw);background:var(--surface);color:var(--ink);z-index:45;display:flex;flex-direction:column;box-shadow:-12px 0 32px var(--shadow)}
+.drawer[hidden]{display:none}
+.drawer .dh{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+.drawer .dh h3{margin:0;font-size:17px;font-weight:800}
+.drawer .x{border:0;background:none;font-size:22px;line-height:1;padding:2px 8px;color:var(--muted)}
+.drawer .db{flex:1;overflow:auto;padding:6px 20px 16px}
+.drawer section{padding:12px 0;border-bottom:1px solid var(--grid)}
+.drawer h4{margin:0 0 10px;font:800 12px Manrope,sans-serif;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.drawer .logoprev{height:64px;border:1px dashed var(--border);border-radius:6px;display:grid;place-items:center;background:var(--navy);margin-bottom:8px;color:#fff;font-size:12px}
+.drawer .logoprev img{max-height:44px;max-width:80%;object-fit:contain}
+.drawer .logoprev img.bg{background:#fff;border-radius:5px;padding:3px 8px}
+.drawer .row2{display:flex;gap:8px;margin-bottom:8px}
+.drawer .chk{display:flex;gap:8px;align-items:center;font-size:12.5px;margin:4px 0 10px}
+.drawer .fld{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+.drawer .fld input{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:7px 9px}
+.drawer .crow{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:13px}
+.drawer .crow .lb{flex:1}
+.drawer .crow .lb small{display:block;color:var(--muted);font-size:11px}
+.drawer .crow input[type=color]{width:44px;height:30px;border:1px solid var(--border);border-radius:5px;padding:2px;background:var(--surface);cursor:pointer}
+.drawer .crow .rs{border:0;background:none;color:var(--muted);font-size:15px;padding:2px 6px;visibility:hidden}
+.drawer .crow.set .rs{visibility:visible}
+.drawer .crow .demo{width:46px;height:22px;border-radius:4px;border-left:4px solid;font-size:10px;display:grid;place-items:center;font-weight:700}
+.drawer .hint{font-size:11.5px;color:var(--muted);margin:12px 0 0}
+.drawer .df{display:flex;gap:6px;align-items:center;padding:12px 20px;border-top:1px solid var(--border);flex-wrap:wrap}
+.drawer .df .sp{flex:1}
 .drop div{background:var(--surface);padding:14px 20px;border-radius:8px;font-weight:600;color:var(--ink);box-shadow:0 8px 22px var(--shadow)}
 @media (max-width:1180px){.waves{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}.waves{grid-template-columns:repeat(2,1fr)}.two,.charts{grid-template-columns:1fr}
@@ -271,7 +303,7 @@ body.tv .cell .st{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
-<div class="brandbar"><div class="brand"><span style="font-size:20px">⬡</span><div>OUTBOUND<small>PERFORMANCE</small></div></div><div class="right"><div class="crumb">Operações › <b>Acompanhamento de Pedido</b></div><button type="button" class="theme" id="bTheme" aria-label="Alternar tema claro/escuro"></button></div></div>
+<div class="brandbar"><div class="brand" id="brand"></div><div class="right"><div class="crumb">Operações › <b>Acompanhamento de Pedido</b></div><button type="button" class="theme" id="bAp" aria-label="Aparência: logo e cores"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Aparência</span></button><button type="button" class="theme" id="bTheme" aria-label="Alternar tema claro/escuro"></button></div></div>
 <div class="wrap">
   <header>
     <div>
@@ -314,13 +346,14 @@ body.tv .cell .st{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   </div>
   <div id="board">
     <div class="tvbar" id="tvBar">
-      <div class="tvt"><span class="tvlogo">⬡</span><div><div class="tvh">Acompanhamento de Pedido</div><div class="tvs" id="tvSub"></div></div></div>
+      <div class="tvt"><span class="tvlogo" id="tvLogo">⬡</span><div><div class="tvh">Acompanhamento de Pedido</div><div class="tvs" id="tvSub"></div></div></div>
       <div class="tvr">
         <button type="button" class="arrow" id="tvPrev" aria-label="Dia anterior">◀</button>
         <div class="tvday" id="tvDay"></div>
         <button type="button" class="arrow" id="tvNext" aria-label="Próximo dia">▶</button>
         <div class="tvclock" id="tvClock"></div>
         <button type="button" class="iconbtn tvonly" id="tvImp" title="Importar base atualizada (.xlsx)">⤒</button>
+        <button type="button" class="iconbtn tvonly" id="tvAp" title="Aparência: logo e cores"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
         <button type="button" class="iconbtn tvonly" id="tvTheme" title="Alternar tema claro/escuro (tecla T)">☾</button>
         <button type="button" class="iconbtn tvonly" id="tvFs" title="Tela cheia do navegador (tecla F)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg><span>Tela cheia</span></button>
         <button type="button" class="iconbtn" id="tvExit" title="Sair da tela cheia (Esc)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 2v4H2M14 6h-4V2M10 14v-4h4M2 10h4v4"/></svg><span>Sair</span></button>
@@ -394,6 +427,35 @@ body.tv .cell .st{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     </div>
   </div>
 </div>
+<div class="apveil" id="apVeil"></div>
+<aside class="drawer" id="apDrawer" role="dialog" aria-modal="true" aria-labelledby="apT" hidden>
+  <div class="dh"><h3 id="apT">Aparência</h3><button type="button" class="x" id="apClose" aria-label="Fechar">×</button></div>
+  <div class="db">
+    <section>
+      <h4>Logo da empresa</h4>
+      <div class="logoprev" id="apLogoPrev"></div>
+      <div class="row2"><button type="button" id="apLogoBtn">Escolher imagem</button><button type="button" id="apLogoDel">Remover logo</button><input type="file" id="apLogoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden></div>
+      <label class="chk"><input type="checkbox" id="apLogoBg"> Fundo claro atrás do logo (para logos escuros)</label>
+      <label class="fld">Nome exibido na barra superior<input type="text" id="apName" maxlength="40" placeholder="OUTBOUND PERFORMANCE"></label>
+    </section>
+    <section>
+      <h4>Status das lojas</h4>
+      <div id="apStatus"></div>
+    </section>
+    <section>
+      <h4>Marca e gráficos</h4>
+      <div id="apBrand"></div>
+    </section>
+    <p class="hint">As cores valem para o tema claro e o escuro (os fundos e textos são ajustados automaticamente), e também para as exportações. A configuração fica salva neste navegador. Para levar para a TV, use Exportar e Importar.</p>
+  </div>
+  <div class="df">
+    <button type="button" id="apReset">Restaurar padrão</button>
+    <span class="sp"></span>
+    <button type="button" id="apExp">Exportar</button>
+    <button type="button" id="apImp">Importar</button><input type="file" id="apImpFile" accept=".json,application/json" hidden>
+    <button type="button" class="primary" id="apOk">Concluir</button>
+  </div>
+</aside>
 <div class="tip" id="tip"></div>
 <div class="modal" id="mImp" role="dialog" aria-modal="true" aria-labelledby="mImpT"><div class="box">
   <h3 id="mImpT">Importando base</h3>
@@ -633,9 +695,9 @@ function barChart(el, col, rows, opt){
 }
 function goalOf(d){ return d.stores.length || null; }
 function renderCharts(){
-  barChart($('c1'), TH().c1, DAYS.map((d,i) => ({i, d:d.d, wd:d.wd, v:d.tot, goal:goalOf(d), partial:d.today,
+  barChart($('c1'), chartCol('ch1', TH().c1), DAYS.map((d,i) => ({i, d:d.d, wd:d.wd, v:d.tot, goal:goalOf(d), partial:d.today,
     tip:`${dayLabel(d)}: ${d.tot} lojas expedidas (${d.tot - d.fora.length} do plano + ${d.fora.length} fora)` + (goalOf(d) ? ` · meta ${goalOf(d)}` : '')})), {label:'Total de lojas expedidas por dia'});
-  barChart($('c2'), TH().c2, DAYS.map((d,i) => ({d,i})).filter(o => o.d.stores.length).map(({d,i}) => {
+  barChart($('c2'), chartCol('ch2', TH().c2), DAYS.map((d,i) => ({d,i})).filter(o => o.d.stores.length).map(({d,i}) => {
     const e = d.stores.filter(s => s.st === 'exp').length;
     return {i, d:d.d, wd:d.wd, v:e, goal:d.stores.length, partial:d.today, tip:`${dayLabel(d)}: ${e} de ${d.stores.length} planejadas (${pct(e,d.stores.length)}%)`};
   }), {label:'Planejadas vs expedidas do plano por dia'});
@@ -683,15 +745,15 @@ async function busy(btn, fn){
 async function snap(){
   const h2c = await lib('h2c');
   const prevTheme = document.documentElement.dataset.theme;
-  if (prevTheme !== 'light') { document.documentElement.dataset.theme = 'light'; render(); }
-  try { return await snapInner(h2c); } finally { if (prevTheme !== 'light') { document.documentElement.dataset.theme = prevTheme; render(); } }
+  if (prevTheme !== 'light') { document.documentElement.dataset.theme = 'light'; applyAppearance(); render(); }
+  try { return await snapInner(h2c); } finally { if (prevTheme !== 'light') { document.documentElement.dataset.theme = prevTheme; applyAppearance(); render(); } }
 }
 async function snapInner(h2c){
   const board = $('board');
   const prev = board.style.cssText;
   board.style.cssText = 'width:1240px;padding:16px;background:#f4f6f9';
   const head = document.createElement('div');
-  head.innerHTML = `<div style="background:#112940;color:#fff;margin:-16px -16px 14px;padding:10px 16px;font:800 12px Manrope,sans-serif;letter-spacing:2px">⬡ OUTBOUND PERFORMANCE</div><div style="font:800 24px Manrope,sans-serif;letter-spacing:-.5px;color:#1b3047;margin-bottom:2px">Acompanhamento de Pedido · ${esc(dayLabel(DAYS[iDay]))}${wave ? ' · onda ' + wave : ''}</div><div style="font:13px DM Sans,sans-serif;color:#738297;margin-bottom:12px">CD Outbound · atendimento vs planejado${EXCL.size ? ' · ' + EXCL.size + ' loja(s) desconsiderada(s): ' + esc([...EXCL].sort((a,b)=>a-b).join(', ')) : ''}</div>`;
+  head.innerHTML = `<div style="background:${apCol('navy')};color:#fff;margin:-16px -16px 14px;padding:10px 16px;font:800 12px Manrope,sans-serif;letter-spacing:2px;display:flex;align-items:center;gap:12px;min-height:44px">${AP.logo ? `<img src="${AP.logo.src}" style="height:28px;${AP.logoBg ? 'background:#fff;border-radius:5px;padding:3px 7px;' : ''}">` : '⬡'}<span>${esc(brandName() || (AP.logo ? '' : 'OUTBOUND PERFORMANCE'))}</span></div><div style="font:800 24px Manrope,sans-serif;letter-spacing:-.5px;color:#1b3047;margin-bottom:2px">Acompanhamento de Pedido · ${esc(dayLabel(DAYS[iDay]))}${wave ? ' · onda ' + wave : ''}</div><div style="font:13px DM Sans,sans-serif;color:#738297;margin-bottom:12px">CD Outbound · atendimento vs planejado${EXCL.size ? ' · ' + EXCL.size + ' loja(s) desconsiderada(s): ' + esc([...EXCL].sort((a,b)=>a-b).join(', ')) : ''}</div>`;
   board.prepend(head);
   board.querySelectorAll('.scroll').forEach(s => { s.dataset.mh = s.style.maxHeight; s.style.maxHeight = 'none'; });
   try { return await h2c(board, {scale:2, backgroundColor:'#f4f6f9', windowWidth:1300}); }
@@ -721,12 +783,15 @@ $('bPpt').onclick = e => busy(e.currentTarget, async () => {
   const P = await lib('ppt'); const pptx = new P(); pptx.layout = 'LAYOUT_WIDE'; // 13.33 x 7.5 in
   const d = DAYS[iDay], live = d.today, naoWord = live ? 'Ainda não expedidas' : 'Não expedidas';
   const {P: plan, exp, nao} = stats(d, 0);
-  const FONT = 'Calibri', INK = '1B3047', INK2 = '5D6E82', MUT = '738297', BLUE = '2B6CB0', TEAL = '148487', NAVY = '112940', ACC = 'C8421B', GRAY = 'CFD8E2';
+  const H = k => apCol(k).replace('#','').toUpperCase();
+  const FONT = 'Calibri', INK = '1B3047', INK2 = '5D6E82', MUT = '738297', BLUE = H('ch2'), TEAL = H('ch1'), NAVY = H('navy'), ACC = H('acc'), GRAY = 'CFD8E2';
   const title = (s, t, sub) => {
     s.background = {color:'FFFFFF'};
     s.addShape(pptx.ShapeType.rect, {x:0, y:0, w:13.333, h:.14, fill:{color:NAVY}, line:{color:NAVY}});
     s.addShape(pptx.ShapeType.rect, {x:.5, y:.36, w:.07, h:.42, fill:{color:ACC}, line:{color:ACC}});
-    s.addText('OUTBOUND PERFORMANCE', {x:9.8, y:.24, w:3.03, h:.3, fontFace:FONT, fontSize:9, bold:true, color:'62838C', align:'right', charSpacing:2});
+    if (AP.logo) { const lh = .42, lw = Math.min(2.4, lh * AP.logo.w / AP.logo.h); s.addImage({data:AP.logo.src.replace(/^data:/, ''), x:12.83 - lw, y:.3, w:lw, h:lh});
+      if (brandName()) s.addText(brandName().toUpperCase(), {x:6.5, y:.36, w:6.2 - lw, h:.3, fontFace:FONT, fontSize:9, bold:true, color:'62838C', align:'right', charSpacing:2}); }
+    else s.addText((brandName() || 'OUTBOUND PERFORMANCE').toUpperCase(), {x:9.3, y:.24, w:3.53, h:.3, fontFace:FONT, fontSize:9, bold:true, color:'62838C', align:'right', charSpacing:2});
     s.addText(t, {x:.68, y:.3, w:12.3, h:.55, fontFace:FONT, fontSize:24, bold:true, color:INK});
     s.addText(sub, {x:.68, y:.82, w:12.1, h:.35, fontFace:FONT, fontSize:13, color:INK2});
   };
@@ -761,7 +826,7 @@ $('bPpt').onclick = e => busy(e.currentTarget, async () => {
   s1.addText('Resumo do dia', {x:8.75, y:1.55, w:3.9, h:.45, fontFace:FONT, fontSize:15, bold:true, color:INK});
   lines.forEach(([k,v], i) => {
     s1.addText(k, {x:8.75, y:2.05 + i*.48, w:2.4, h:.5, fontFace:FONT, fontSize:13, color:INK2, valign:'middle'});
-    s1.addText(v, {x:10.9, y:2.05 + i*.48, w:1.75, h:.5, fontFace:FONT, fontSize:17, bold:true, color:INK, align:'right', valign:'middle'});
+    s1.addText(v, {x:10.15, y:2.05 + i*.48, w:2.5, h:.5, fontFace:FONT, fontSize:17, bold:true, color:INK, align:'right', valign:'middle'});
   });
   const waveLine = [1,2,3,4].filter(w => wp[w-1]).map(w => { const A = waveAgg(d.stores.filter(s => s.o === w)); const f = x => x ? dm(x) + ' ' + x.slice(11,16) : '—';
     return `O${w}: ${we[w-1]}/${wp[w-1]} · ${A.pc == null ? '—' : nf(A.pc)} pçs · ${A.sk == null ? '—' : nf(A.sk)} SKUs · ${f(A.ini)} → ${A.fim ? f(A.fim) : 'em aberto'}`; }).join('\n');
@@ -796,7 +861,7 @@ $('bPpt').onclick = e => busy(e.currentTarget, async () => {
   if (nao.length) {
     const hdr = ['Onda', 'Lane', 'Loja', 'Situação'].map(t => ({text:t, options:{bold:true, color:'FFFFFF', fill:{color:NAVY}}}));
     const rows = nao.slice().sort((a,b) => a.o - b.o || a.l - b.l).map(s => [`${s.o} · ${WAVES[s.o]}`, 'LN' + String(s.l).padStart(2,'0'), `${s.c} – ${s.n}`,
-      {text:sitText(s) + (s.sit === 'proc' || s.sit === 'pend' ? ` (${s.det})` : ''), options:{color: s.st === 'proc' ? '875A00' : 'B42828'}}]);
+      {text:sitText(s) + (s.sit === 'proc' || s.sit === 'pend' ? ` (${s.det})` : ''), options:{color: (s.st === 'proc' ? mix(apCol('warn'), '#000000', .4) : mix(apCol('bad'), '#000000', .25)).replace('#','').toUpperCase()}}]);
     s3.addTable([hdr, ...rows], {x:.5, y:1.35, w:12.3, colW:[1.6, 1.1, 4.4, 5.2], fontFace:FONT, fontSize:11, color:INK,
       border:{type:'solid', pt:.5, color:'E1E7EE'}, rowH:.3, autoPage:true, autoPageRepeatHeader:true, autoPageSlideStartY:1.35, newSlideStartY:1.35});
   } else s3.addText(d.stores.length ? 'Todas as lojas planejadas foram expedidas no dia.' : 'Sábado sem cronograma.', {x:.5, y:3.3, w:12.3, h:.6, fontFace:FONT, fontSize:18, color:'288A7A', align:'center'});
@@ -1112,6 +1177,95 @@ function renderExcl(){
   $('exClear').onclick = () => { if (!EXCL.size) return; EXCL.clear(); exclChanged(); toast('Todas as lojas voltaram a ser consideradas.'); };
 })();
 
+/* ---------- aparência: logo e cores ---------- */
+const AP_KEY = 'acp-aparencia';
+const AP_DEF = {good:'#1fa37c', warn:'#f2a900', bad:'#e04545', off:'#c4cdd8', navy:'#112940', acc:'#c8421b', ch1:'#148487', ch2:'#2b6cb0', ini:'#148487', fim:'#c8421b'};
+const AP_LABELS = {
+  status: [['good','Expedida','quadros, barras e números'], ['warn','Em processo','em andamento / coletando'], ['bad','Não expedida','e "ainda não expedidas"'], ['off','Desconsiderada','lojas marcadas para ignorar']],
+  brand: [['navy','Barra superior','cabeçalho, filtros ativos, tabelas do PPT'], ['acc','Destaque','botão principal, aba ativa'], ['ch1','Gráfico: total expedido',''], ['ch2','Gráfico: expedidas do plano','e gráfico por onda do PPT'], ['ini','Ícone de início da onda',''], ['fim','Ícone de fim da onda','']]
+};
+let AP = {logo:null, logoBg:true, name:'', c:{}};
+try { const x = JSON.parse(localStorage.getItem(AP_KEY) || 'null'); if (x && typeof x === 'object') AP = {...AP, ...x, c:{...(x.c || {})}}; } catch(e) {}
+const hx = h => { h = h.replace('#',''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); return [0,2,4].map(i => parseInt(h.substr(i,2), 16)); };
+const toHex = a => '#' + a.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2,'0')).join('');
+const mix = (a, b, t) => { const A = hx(a), B = hx(b); return toHex(A.map((v,i) => v + (B[i] - v) * t)); };
+const apCol = k => AP.c[k] || AP_DEF[k];
+const AP_VARS = ['--good','--good-bg','--good-ink','--warn','--warn-bg','--warn-ink','--bad','--bad-bg','--bad-ink','--off-bd','--off-bg','--navy','--navy2','--pop','--chip-on','--acc','--ini','--fim'];
+function applyAppearance(){
+  const st = document.documentElement.style, dk = isDark(), surf = dk ? '#14263a' : '#ffffff';
+  AP_VARS.forEach(v => st.removeProperty(v));
+  ['good','warn','bad'].forEach(k => { const c = AP.c[k]; if (!c) return;
+    st.setProperty('--' + k, c); st.setProperty('--' + k + '-bg', mix(c, surf, dk ? .74 : .82)); st.setProperty('--' + k + '-ink', dk ? mix(c, '#ffffff', .45) : mix(c, '#000000', .32)); });
+  if (AP.c.off) { st.setProperty('--off-bd', AP.c.off); st.setProperty('--off-bg', mix(AP.c.off, surf, dk ? .8 : .85)); }
+  if (AP.c.navy) { const n = dk ? mix(AP.c.navy, '#000000', .35) : AP.c.navy; st.setProperty('--navy', n); st.setProperty('--navy2', mix(AP.c.navy, '#ffffff', dk ? .3 : .15)); st.setProperty('--pop', dk ? mix(AP.c.navy, '#ffffff', .15) : AP.c.navy); if (!dk) st.setProperty('--chip-on', AP.c.navy); }
+  if (AP.c.acc) st.setProperty('--acc', AP.c.acc);
+  if (AP.c.ini) st.setProperty('--ini', AP.c.ini);
+  if (AP.c.fim) st.setProperty('--fim', AP.c.fim);
+  renderBrand();
+}
+function chartCol(k, base){
+  if (!AP.c[k]) return base;
+  const c = AP.c[k], dk = isDark();
+  return dk ? {c, d:mix(c, '#ffffff', .45), p:mix(c, '#14263a', .55)} : {c, d:mix(c, '#000000', .3), p:mix(c, '#ffffff', .6)};
+}
+const brandName = () => (AP.name || '').trim();
+function logoImg(cls){ return AP.logo ? `<img src="${AP.logo.src}" alt="Logo" class="${cls}${AP.logoBg ? ' bg' : ''}">` : ''; }
+function renderBrand(){
+  const nm = brandName();
+  $('brand').innerHTML = AP.logo
+    ? logoImg('blogo') + (nm ? `<span class="bname">${esc(nm)}</span>` : '')
+    : (nm ? `<span style="font-size:20px">⬡</span><span class="bname">${esc(nm)}</span>` : `<span style="font-size:20px">⬡</span><div>OUTBOUND<small>PERFORMANCE</small></div>`);
+  $('tvLogo').innerHTML = AP.logo ? logoImg('') : '⬡';
+  const pv = $('apLogoPrev'); if (pv) pv.innerHTML = AP.logo ? logoImg('') : 'Nenhum logo';
+}
+function saveAp(){ try { localStorage.setItem(AP_KEY, JSON.stringify(AP)); } catch(e) { toast('Não foi possível salvar: a imagem do logo pode ser grande demais.'); } }
+function apChanged(){ saveAp(); applyAppearance(); render(); apFill(); }
+function apRow(k, label, sub){
+  return `<div class="crow ${AP.c[k] ? 'set' : ''}" data-k="${k}"><div class="lb">${label}${sub ? `<small>${sub}</small>` : ''}</div>
+    <input type="color" value="${apCol(k)}" aria-label="Cor: ${label}"><button type="button" class="rs" title="Voltar ao padrão">↺</button></div>`;
+}
+function apFill(){
+  $('apStatus').innerHTML = AP_LABELS.status.map(r => apRow(...r)).join('');
+  $('apBrand').innerHTML = AP_LABELS.brand.map(r => apRow(...r)).join('');
+  $('apLogoBg').checked = !!AP.logoBg; $('apName').value = AP.name || '';
+  document.querySelectorAll('#apDrawer .crow').forEach(row => {
+    const k = row.dataset.k, inp = row.querySelector('input');
+    inp.oninput = () => { AP.c[k] = inp.value; row.classList.add('set'); saveAp(); applyAppearance(); render(); };
+    row.querySelector('.rs').onclick = () => { delete AP.c[k]; apChanged(); };
+  });
+  renderBrand();
+}
+function apOpen(){ apFill(); $('apDrawer').hidden = false; $('apVeil').classList.add('on'); }
+function apClose(){ $('apDrawer').hidden = true; $('apVeil').classList.remove('on'); }
+$('bAp').onclick = apOpen; $('tvAp').onclick = apOpen;
+$('apClose').onclick = apClose; $('apOk').onclick = apClose; $('apVeil').onclick = apClose;
+addEventListener('keydown', e => { if (e.key === 'Escape' && !$('apDrawer').hidden) { e.stopImmediatePropagation(); apClose(); } }, true);
+$('apLogoBtn').onclick = () => $('apLogoFile').click();
+$('apLogoDel').onclick = () => { AP.logo = null; apChanged(); };
+$('apLogoBg').onchange = e => { AP.logoBg = e.target.checked; apChanged(); };
+$('apName').oninput = e => { AP.name = e.target.value; saveAp(); renderBrand(); };
+$('apLogoFile').onchange = e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  if (f.size > 5e6) { toast('Imagem muito grande (máx. 5 MB).'); return; }
+  const rd = new FileReader();
+  rd.onload = () => { const im = new Image(); im.onload = () => {
+      const iw = im.naturalWidth || 300, ih = im.naturalHeight || 100, sc = Math.min(1, 160 / ih, 640 / iw);
+      const cv = document.createElement('canvas'); cv.width = Math.max(1, Math.round(iw * sc)); cv.height = Math.max(1, Math.round(ih * sc));
+      cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+      AP.logo = {src: cv.toDataURL('image/png'), w: cv.width, h: cv.height}; apChanged(); toast('Logo aplicado.');
+    }; im.onerror = () => toast('Não foi possível ler essa imagem.'); im.src = rd.result; };
+  rd.readAsDataURL(f);
+};
+$('apReset').onclick = () => { AP = {logo:AP.logo, logoBg:AP.logoBg, name:AP.name, c:{}}; apChanged(); toast('Cores restauradas ao padrão (o logo foi mantido).'); };
+$('apExp').onclick = () => saveFile('aparencia-painel.json', new Blob([JSON.stringify({tipo:'acp-aparencia', v:1, ...AP})], {type:'application/json'}));
+$('apImp').onclick = () => $('apImpFile').click();
+$('apImpFile').onchange = e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  f.text().then(t => { const x = JSON.parse(t); if (!x || x.tipo !== 'acp-aparencia') throw 0;
+    AP = {logo:x.logo || null, logoBg:x.logoBg !== false, name:x.name || '', c:{...(x.c || {})}}; apChanged(); toast('Aparência importada.'); })
+   .catch(() => toast('Arquivo de aparência inválido.'));
+};
+
 /* ---------- tela cheia (modo TV) ---------- */
 const inTv = () => document.body.classList.contains('tv');
 function tvPaint(){
@@ -1157,10 +1311,11 @@ $('bTheme').onclick = () => {
   const t = isDark() ? 'light' : 'dark';
   document.documentElement.dataset.theme = t;
   try { localStorage.setItem(THEME_KEY, t); } catch(e) {}
-  paintThemeBtn(); render();
+  paintThemeBtn(); applyAppearance(); render();
 };
-try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => { let saved = null; try { saved = localStorage.getItem(THEME_KEY); } catch(_) {} if (!saved) { document.documentElement.dataset.theme = e.matches ? 'dark' : 'light'; paintThemeBtn(); render(); } }); } catch(e) {}
+try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => { let saved = null; try { saved = localStorage.getItem(THEME_KEY); } catch(_) {} if (!saved) { document.documentElement.dataset.theme = e.matches ? 'dark' : 'light'; paintThemeBtn(); applyAppearance(); render(); } }); } catch(e) {}
 paintThemeBtn();
+applyAppearance();
 initControls(); render(); renderExcl(); showTab(TV_ONLY ? 'painel' : location.hash.slice(1));
 if (TV_ONLY) {
   document.body.classList.add('tvpage', 'tv'); tvClock(); setInterval(tvClock, 15000); render();
